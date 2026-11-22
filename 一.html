@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>木中黃金 · 海南黃花梨 | 手串與藏品</title>
+<style>
+  :root{
+    --ink:#1C1612;
+    --ink-soft:#2A211B;
+    --wood:#6B4F3A;
+    --gold:#C6A15B;
+    --gold-soft:#D9C49A;
+    --paper:#F3EDE3;
+    --paper-dim:#E8DFD1;
+    --cinnabar:#8C3A2B;
+    --serif:"Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft JhengHei",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);color:var(--paper);
+    font-family:var(--sans);font-size:16px;line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  body.is-locked{overflow:hidden;}
+  ::selection{background:var(--gold);color:var(--ink);}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;}
+
+  /* 導覽列 */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px clamp(20px,5vw,64px);
+    background:rgba(28,22,18,.88);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(198,161,91,.18);
+    transition:padding .3s;
+  }
+  .nav__brand{font-family:var(--serif);font-size:1.05rem;letter-spacing:.18em;color:var(--gold-soft);}
+  .nav__brand span{color:var(--gold);}
+  .nav__links{display:flex;gap:clamp(14px,2.6vw,34px);font-size:.82rem;letter-spacing:.12em;color:rgba(243,237,227,.72);}
+  .nav__links a{transition:color .25s;}
+  .nav__links a:hover{color:var(--gold);}
+  .nav__toggle{display:none;background:none;border:1px solid rgba(198,161,91,.4);color:var(--gold-soft);padding:6px 12px;font-size:.78rem;letter-spacing:.15em;cursor:pointer;}
+
+  /* 主視覺 */
+  .hero{
+    min-height:92svh;display:grid;place-items:center;
+    padding:130px clamp(20px,6vw,80px) 80px;
+    position:relative;overflow:hidden;
+    background:radial-gradient(ellipse 80% 55% at 50% 40%, rgba(107,79,58,.42), transparent),linear-gradient(160deg,#1C1612 0%,#211A15 45%,#1A140F 100%);
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:repeating-linear-gradient(104deg,transparent 0 60px,rgba(198,161,91,.028) 60px 61px),repeating-linear-gradient(78deg,transparent 0 90px,rgba(156,122,92,.02) 90px 91px);
+  }
+  .hero__inner{position:relative;z-index:1;max-width:980px;text-align:center;}
+  .hero__eyebrow{font-size:.72rem;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;margin-bottom:28px;}
+  .hero__title{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,7vw,5.2rem);line-height:1.18;letter-spacing:.06em;margin-bottom:8px;}
+  .hero__title em{font-style:normal;color:var(--gold);}
+  .hero__sub{font-family:var(--serif);font-size:clamp(1rem,2.2vw,1.35rem);color:rgba(243,237,227,.58);letter-spacing:.12em;margin-bottom:44px;}
+  .hero__rule{width:1px;height:56px;margin:0 auto 36px;background:linear-gradient(to bottom,var(--gold),transparent);}
+  .hero__meta{display:flex;flex-wrap:wrap;justify-content:center;gap:14px clamp(20px,5vw,56px);font-size:.78rem;letter-spacing:.16em;color:rgba(243,237,227,.48);}
+  .hero__meta span::before{content:"·";margin-right:10px;color:var(--cinnabar);}
+
+  /* 通用 */
+  .section{padding:clamp(72px,11vw,140px) clamp(20px,6vw,80px);}
+  .section__inner{max-width:1240px;margin:0 auto;}
+  .section--paper{background:var(--paper);color:var(--ink);}
+  .section--dim{background:var(--ink-soft);}
+  .kicker{font-size:.68rem;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;margin-bottom:18px;}
+  .section--paper .kicker{color:var(--wood);}
+  .title{font-family:var(--serif);font-weight:400;font-size:clamp(1.7rem,3.6vw,2.8rem);line-height:1.35;letter-spacing:.04em;margin-bottom:20px;}
+  .lead{max-width:720px;font-size:clamp(.92rem,1.5vw,1.02rem);color:rgba(243,237,227,.62);line-height:2;}
+  .section--paper .lead{color:rgba(28,22,18,.64);}
+
+  /* 產品卡片 */
+  .bracelet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,30px);margin-top:56px;}
+  .pcard{background:var(--paper);color:var(--ink);border:1px solid rgba(198,161,91,.22);display:flex;flex-direction:column;transition:transform .32s ease,box-shadow .32s ease;overflow:hidden;}
+  .pcard:hover{transform:translateY(-6px);box-shadow:0 22px 48px rgba(0,0,0,.34);}
+
+  .pcard__media{
+    position:relative;aspect-ratio:1/1;
+    display:grid;place-items:center;overflow:hidden;cursor:pointer;
+    background:radial-gradient(circle at 50% 42%, rgba(198,161,91,.16), transparent 62%),radial-gradient(circle at 50% 50%, #3A2C22 0%, #251C16 62%, #1B1410 100%);
+  }
+  .pcard__media img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;display:block;}
+  .pcard:hover .pcard__media img{transform:scale(1.04) rotate(1deg);}
+  .pcard__placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:rgba(198,161,91,.4);font-size:.76rem;letter-spacing:.2em;}
+
+  .pcard__badge{position:absolute;top:14px;left:14px;z-index:2;font-size:.64rem;letter-spacing:.2em;color:var(--gold-soft);border:1px solid rgba(198,161,91,.45);background:rgba(28,22,18,.55);padding:3px 10px;}
+
+  .pcard__body{padding:clamp(20px,2.6vw,28px);display:flex;flex-direction:column;flex:1;}
+  .pcard__title{font-family:var(--serif);font-weight:400;font-size:1.14rem;letter-spacing:.05em;margin-bottom:8px;}
+  .pcard__spec{font-size:.72rem;letter-spacing:.1em;color:var(--wood);margin-bottom:10px;}
+  .pcard__stock{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;letter-spacing:.08em;margin-bottom:16px;}
+  .pcard__stock::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;flex:none;}
+  .pcard__stock.is-in{color:var(--wood);}
+  .pcard__stock.is-low{color:var(--cinnabar);}
+  .pcard__desc{font-size:.84rem;line-height:1.9;color:rgba(28,22,18,.6);margin-bottom:22px;}
+  .pcard__foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--paper-dim);}
+  .pcard__price{font-family:var(--serif);font-size:1.3rem;letter-spacing:.04em;color:var(--cinnabar);}
+  .pcard__price small{font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;color:rgba(28,22,18,.42);margin-left:4px;}
+  .pcard__btn{font-size:.72rem;letter-spacing:.14em;color:var(--ink);background:none;border:1px solid rgba(28,22,18,.28);padding:7px 14px;white-space:nowrap;cursor:pointer;transition:background .25s,color .25s,border-color .25s;}
+  .pcard__btn:hover{background:var(--ink);color:var(--gold-soft);border-color:var(--ink);}
+  .price-note{margin-top:34px;font-size:.74rem;letter-spacing:.08em;color:rgba(243,237,227,.34);}
+
+  /* 木性 */
+  .nature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:56px;background:rgba(198,161,91,.16);border:1px solid rgba(198,161,91,.16);}
+  .nature-item{background:var(--ink);padding:clamp(28px,4vw,44px) clamp(22px,3vw,34px);transition:background .35s;}
+  .nature-item:hover{background:#221B16;}
+  .nature-item__no{font-family:var(--serif);font-size:.82rem;letter-spacing:.2em;color:var(--gold);margin-bottom:22px;}
+  .nature-item__title{font-family:var(--serif);font-size:1.15rem;letter-spacing:.08em;margin-bottom:14px;}
+  .nature-item__text{font-size:.86rem;line-height:1.95;color:rgba(243,237,227,.54);}
+  .nature-item__text strong{color:var(--gold-soft);font-weight:500;}
+
+  /* 鑑別 */
+  .judge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:52px;}
+  .judge-card{border-top:2px solid var(--gold);padding-top:26px;}
+  .judge-card__char{font-family:var(--serif);font-size:2.4rem;line-height:1;color:var(--wood);margin-bottom:14px;}
+  .judge-card h4{font-family:var(--serif);font-size:1rem;letter-spacing:.1em;margin-bottom:10px;}
+  .judge-card p{font-size:.84rem;line-height:1.9;color:rgba(28,22,18,.58);}
+
+  /* 對照表 */
+  .compare-wrap{overflow-x:auto;margin-top:48px;}
+  .compare{width:100%;border-collapse:collapse;font-size:.86rem;min-width:620px;}
+  .compare th,.compare td{text-align:left;padding:18px 20px;border-bottom:1px solid rgba(198,161,91,.18);vertical-align:top;}
+  .compare thead th{font-family:var(--serif);font-weight:400;font-size:.92rem;letter-spacing:.08em;color:var(--gold);border-bottom-color:rgba(198,161,91,.4);}
+  .compare tbody td:first-child{color:var(--gold-soft);font-size:.8rem;letter-spacing:.08em;white-space:nowrap;}
+  .compare tbody td{color:rgba(243,237,227,.58);line-height:1.9;}
+  .compare tbody tr:last-child td{border-bottom:none;}
+
+  /* 工藝 */
+  .craft-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(36px,6vw,80px);align-items:start;margin-top:52px;}
+  .craft-quote{font-family:var(--serif);font-size:clamp(1.2rem,2.4vw,1.65rem);line-height:1.8;color:var(--gold-soft);padding-left:28px;border-left:2px solid var(--cinnabar);}
+  .craft-list{display:flex;flex-direction:column;gap:28px;}
+  .craft-item{display:grid;grid-template-columns:48px 1fr;gap:18px;align-items:start;}
+  .craft-item__no{font-family:var(--serif);font-size:.82rem;color:var(--gold);letter-spacing:.1em;padding-top:3px;}
+  .craft-item h4{font-family:var(--serif);font-size:1rem;letter-spacing:.08em;margin-bottom:6px;}
+  .craft-item p{font-size:.84rem;line-height:1.85;color:rgba(243,237,227,.52);}
+
+  /* 頁尾 */
+  .footer{padding:64px clamp(20px,6vw,80px) 48px;border-top:1px solid rgba(198,161,91,.14);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px;}
+  .footer__brand{font-family:var(--serif);font-size:1.1rem;letter-spacing:.2em;color:var(--gold-soft);margin-bottom:10px;}
+  .footer__note{font-size:.76rem;line-height:1.9;color:rgba(243,237,227,.36);max-width:480px;}
+  .footer__copy{font-size:.72rem;letter-spacing:.1em;color:rgba(243,237,227,.28);}
+
+  /* 彈窗 */
+  .modal{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:clamp(12px,3vw,32px);opacity:0;visibility:hidden;transition:opacity .32s ease,visibility .32s ease;}
+  .modal.is-open{opacity:1;visibility:visible;}
+  .modal__backdrop{position:absolute;inset:0;background:rgba(14,10,7,.84);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+  .modal__panel{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr 1fr;width:100%;max-width:940px;max-height:min(90vh,780px);overflow:auto;background:var(--paper);color:var(--ink);box-shadow:0 40px 120px rgba(0,0,0,.65);transform:translateY(18px) scale(.975);transition:transform .4s cubic-bezier(.2,.85,.25,1);}
+  .modal.is-open .modal__panel{transform:translateY(0) scale(1);}
+  .modal__close{position:absolute;top:12px;right:12px;z-index:3;width:38px;height:38px;display:grid;place-items:center;background:rgba(28,22,18,.5);border:1px solid rgba(198,161,91,.4);color:var(--gold-soft);font-size:1.15rem;line-height:1;cursor:pointer;transition:background .25s,color .25s;}
+  .modal__close:hover{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar);}
+
+  /* 彈窗畫廊 */
+  .modal__media{position:relative;display:flex;flex-direction:column;padding:clamp(20px,4vw,36px);min-height:340px;background:#1B1410;}
+  .m-gallery{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+  .m-main-img{width:100%;aspect-ratio:1/1;max-height:400px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:4px;background:#2A211B;color:rgba(198,161,91,.4);font-size:.78rem;letter-spacing:.2em;}
+  .m-main-img img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 16px 24px rgba(0,0,0,.6));animation:mFloat 6s ease-in-out infinite;}
+  @keyframes mFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+  .m-thumbs{display:flex;gap:12px;justify-content:center;width:100%;}
+  .m-thumb{width:60px;height:60px;border:2px solid rgba(198,161,91,.2);border-radius:4px;overflow:hidden;cursor:pointer;opacity:.55;transition:all .25s;background:#2A211B;flex:none;display:flex;align-items:center;justify-content:center;color:rgba(198,161,91,.4);font-size:.6rem;}
+  .m-thumb img{width:100%;height:100%;object-fit:cover;}
+  .m-thumb:hover,.m-thumb.is-active{opacity:1;border-color:var(--gold);transform:scale(1.05);}
+  .modal__badge{position:absolute;top:16px;left:16px;z-index:2;font-size:.66rem;letter-spacing:.2em;color:var(--gold-soft);border:1px solid rgba(198,161,91,.45);background:rgba(28,22,18,.55);padding:3px 12px;}
+
+  /* 彈窗資訊 */
+  .modal__body{padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;}
+  .modal__title{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,2.6vw,1.65rem);letter-spacing:.05em;margin-bottom:10px;}
+  .modal__spec{font-size:.76rem;letter-spacing:.1em;color:var(--wood);margin-bottom:20px;}
+  .modal__desc{font-size:.88rem;line-height:2;color:rgba(28,22,18,.62);margin-bottom:26px;}
+  .modal__stock{margin-top:auto;padding:20px 0 24px;border-top:1px solid var(--paper-dim);}
+  .modal__stock-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px;}
+  .modal__stock-label{font-size:.72rem;letter-spacing:.16em;color:rgba(28,22,18,.45);}
+  .modal__stock-val{font-family:var(--serif);font-size:.98rem;letter-spacing:.05em;}
+  .modal__stock-val.is-in{color:var(--wood);}
+  .modal__stock-val.is-low{color:var(--cinnabar);}
+  .stock-bar{height:5px;border-radius:3px;overflow:hidden;background:rgba(28,22,18,.1);}
+  .stock-bar span{display:block;height:100%;border-radius:3px;transition:width .6s cubic-bezier(.2,.8,.2,1);}
+  .stock-bar.is-in span{background:var(--wood);}
+  .stock-bar.is-low span{background:var(--cinnabar);}
+  .modal__stock-hint{margin-top:10px;font-size:.72rem;letter-spacing:.06em;color:rgba(28,22,18,.42);}
+  .modal__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:20px;border-top:1px solid var(--paper-dim);}
+  .modal__price{font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,1.6rem);letter-spacing:.04em;color:var(--cinnabar);}
+  .modal__price small{font-family:var(--sans);font-size:.7rem;letter-spacing:.1em;color:rgba(28,22,18,.42);margin-left:4px;}
+  .modal__buy{font-size:.78rem;letter-spacing:.14em;color:var(--paper);background:var(--ink);border:1px solid var(--ink);padding:12px 26px;cursor:pointer;transition:background .25s,border-color .25s;}
+  .modal__buy:hover{background:var(--cinnabar);border-color:var(--cinnabar);}
+  .modal__buy.is-done{background:var(--wood);border-color:var(--wood);}
+
+  /* 響應式 */
+  @media(max-width:1024px){.bracelet-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:900px){
+    .nature-grid{grid-template-columns:1fr;}
+    .judge-grid{grid-template-columns:repeat(2,1fr);}
+    .craft-layout{grid-template-columns:1fr;}
+    .nav__links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:rgba(28,22,18,.98);padding:8px 0 16px;border-bottom:1px solid rgba(198,161,91,.2);}
+    .nav__links.is-open{display:flex;}
+    .nav__links a{padding:12px clamp(20px,5vw,64px);font-size:.84rem;}
+    .nav__toggle{display:block;}
+  }
+  @media(max-width:820px){
+    .modal__panel{grid-template-columns:1fr;max-height:92vh;}
+    .modal__media{min-height:260px;padding:24px;}
+    .m-main-img{max-height:280px;}
+    .modal__body{padding:26px 22px 30px;}
+  }
+  @media(max-width:600px){
+    .bracelet-grid{grid-template-columns:1fr;}
+    .judge-grid{grid-template-columns:1fr;}
+    .hero__meta{flex-direction:column;gap:8px;}
+    .hero__meta span::before{display:none;}
+    .pcard__foot{flex-wrap:wrap;}
+    .modal__foot{flex-direction:column;align-items:stretch;}
+    .modal__buy{width:100%;text-align:center;}
+    .m-thumb{width:50px;height:50px;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none!important;animation:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav__brand">木中黃金 · <span>降香黃檀</span></div>
+  <nav class="nav__links" id="navLinks">
+    <a href="#bracelets">手串</a>
+    <a href="#nature">木性</a>
+    <a href="#judge">鑑別</a>
+    <a href="#compare">海黃與越黃</a>
+    <a href="#craft">工藝</a>
+  </nav>
+  <button class="nav__toggle" id="navToggle" aria-label="開啟選單" aria-expanded="false">選單</button>
+</header>
+
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__eyebrow">Dalbergia odorifera · 海南黃花梨</div>
+    <h1 class="hero__title">一寸黃花梨<br><em>一寸金</em></h1>
+    <p class="hero__sub">木性溫潤，紋理如畫，降香清幽</p>
+    <div class="hero__rule"></div>
+    <div class="hero__meta">
+      <span>國家一級保護植物</span>
+      <span>氣乾密度 ≥ 0.76 g/cm³</span>
+      <span>明清家具經典用材</span>
+      <span>油性足 · 紋理活</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="bracelets">
+  <div class="section__inner">
+    <div class="kicker">Bead Bracelets</div>
+    <h2 class="title">手串 · 六款可選</h2>
+    <p class="lead">
+      手串是體驗黃花梨木性最直接的入口。以下六款分為黃油梨、紅油梨、紫油梨三類，涵蓋細紋、水波紋、電水紋三種紋理，珠徑與顆數各不相同。
+    </p>
+    <div class="bracelet-grid" id="braceletGrid"></div>
+    <p class="price-note">* 頁面內價格為範例展示，實際價格隨料質、紋理、出材率及市場行情浮動，以實物為準。</p>
+  </div>
+</section>
+
+<section class="section section--dim" id="nature">
+  <div class="section__inner">
+    <div class="kicker">Wood Character</div>
+    <h2 class="title">讀懂一塊木頭，<br>先讀懂它的「性」。</h2>
+    <p class="lead">
+      海南黃花梨，學名降香黃檀。它之所以能在明清兩代成為文人家具的首選，不是因為「貴」，而是因為木性本身恰到好處——硬而不脆，油而不膩，紋而不亂。
+    </p>
+    <div class="nature-grid">
+      <div class="nature-item">
+        <div class="nature-item__no">01 / 色</div>
+        <h3 class="nature-item__title">金黃為底，紫黑為貴</h3>
+        <p class="nature-item__text">以金黃為基調，從淺黃、金黃延伸到紅褐、深褐乃至紫黑。東部<strong>糠梨</strong>色淺紋顯，西部<strong>油梨</strong>色沉油足；紫中帶紅的<strong>紫油梨</strong>油性極佳，質感近乎琥珀。</p>
+      </div>
+      <div class="nature-item">
+        <div class="nature-item__no">02 / 紋</div>
+        <h3 class="nature-item__title">行雲流水，鬼臉為奇</h3>
+        <p class="nature-item__text">好料紋理流暢而不雜亂，有麥穗紋、蟹爪紋，山水紋如行雲流水。結疤處偶成<strong>「鬼臉」</strong>，無規則而生動。海黃的紋路群中心往往收於一個黑點。</p>
+      </div>
+      <div class="nature-item">
+        <div class="nature-item__no">03 / 質</div>
+        <h3 class="nature-item__title">油性充盈，觸手溫潤</h3>
+        <p class="nature-item__text">氣乾密度等於或大於 <strong>0.76 g/cm³</strong>，堅硬卻<strong>韌而不脆</strong>。摸起來溫潤，粗而不刺，油性可明顯感知，甚至摸後手上餘香縈繞。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper" id="judge">
+  <div class="section__inner">
+    <div class="kicker">How to Tell</div>
+    <h2 class="title">望 · 聞 · 問 · 摸</h2>
+    <p class="lead">黃花梨的鑑別沒有單一捷徑，但有一套可以反覆練習的感官路徑。以下四點，是入門階段最值得先建立起來的判斷習慣。</p>
+    <div class="judge-grid">
+      <div class="judge-card"><div class="judge-card__char">望</div><h4>看紋理與色澤</h4><p>紋理清晰流暢，有麥穗紋、蟹爪紋，或隱或現，生動多變。心材紅褐至深紅褐，常帶黑褐色條紋。</p></div>
+      <div class="judge-card"><div class="judge-card__char">聞</div><h4>辨氣味</h4><p>香味淳厚，屬辛辣香，細辨帶微酸。海黃降香清幽柔和，越黃則往往更衝，甚至夾有酸味、臭味。</p></div>
+      <div class="judge-card"><div class="judge-card__char">問</div><h4>追問來源</h4><p>海南黃花梨為國家一級保護植物，早已禁止砍伐。若有人聲稱擁有大量新料海黃工藝品，需格外警惕。</p></div>
+      <div class="judge-card"><div class="judge-card__char">摸</div><h4>感受密度與油性</h4><p>氣乾密度≥0.76 g/cm³，手感堅硬而溫潤，粗而不刺。海黃硬度高於越黃，指甲輕劃一般不留痕。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--dim" id="compare">
+  <div class="section__inner">
+    <div class="kicker">Hainan vs. Vietnam</div>
+    <h2 class="title">海黃與越黃：<br>價差背後，差在哪裡。</h2>
+    <p class="lead">越南黃花梨是市場上最常見的替代材，兩者外觀相近，價格卻相差懸殊。以下五個維度，是區分時需要反覆比對的核心線索。</p>
+    <div class="compare-wrap">
+      <table class="compare">
+        <thead><tr><th>維度</th><th>海南黃花梨（海黃）</th><th>越南黃花梨（越黃）</th></tr></thead>
+        <tbody>
+          <tr><td>色澤</td><td>顏色沉穩，紅褐色調為主，常帶黑褐色紋理</td><td>色澤偏淺，黃潤為主，咖啡色條紋，整體較「浮」</td></tr>
+          <tr><td>紋理</td><td>細緻雅致，如行雲流水，鬼臉及老虎紋較多；紋路群中心收於黑點</td><td>花紋相對單調，鬼臉較少；紋路群中心呈「空」狀，逐級消失</td></tr>
+          <tr><td>氣味</td><td>降香清幽、柔和，辛香自然</td><td>香氣較衝，夾酸味甚至臭味，部分人感到不適</td></tr>
+          <tr><td>油性</td><td>油性足，表面溫潤，盤玩後易出玻璃底包漿</td><td>油性通常僅為海黃的三分之一左右，手感偏乾</td></tr>
+          <tr><td>硬度</td><td>硬度較高，指甲劃動一般不留痕</td><td>硬度相對較低，除根料外，指甲劃動常有明顯痕跡</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="craft">
+  <div class="section__inner">
+    <div class="kicker">Craft & Principle</div>
+    <div class="craft-layout">
+      <div><blockquote class="craft-quote">「好料不必多說。<br>把木頭本來的樣子，<br>如實交出來就夠了。」</blockquote></div>
+      <div class="craft-list">
+        <div class="craft-item"><div class="craft-item__no">01</div><div><h4>選料不將就</h4><p>油性、密度、紋理走向在開料前就要做出判斷。一塊料適合做什麼，往往在切開之前已經有了答案。</p></div></div>
+        <div class="craft-item"><div class="craft-item__no">02</div><div><h4>同料成串</h4><p>一串好手串，珠子應出自同一塊料，紋理、色澤、油性才能統一。拼料成串，觀感與價值都會打折。</p></div></div>
+        <div class="craft-item"><div class="craft-item__no">03</div><div><h4>打磨到「收」</h4><p>打磨的終點不是光亮，而是讓木紋與油性自然呈現。過度拋光反而會遮住黃花梨本來的呼吸感。</p></div></div>
+        <div class="craft-item"><div class="craft-item__no">04</div><div><h4>留白與克制</h4><p>鬼臉、水波紋是木頭的語言，不是工藝可以製造的。好的工藝懂得在紋理面前退後一步。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>
+    <div class="footer__brand">木中黃金 · 降香黃檀</div>
+    <p class="footer__note">本站為黃花梨文化展示與產品陳列概念頁面。黃花梨為國家一級保護植物，野生資源受嚴格管控，請透過合法合規管道了解與收藏。頁面價格與庫存為範例，圖片為示意，實際以實物為準。</p>
+  </div>
+  <div class="footer__copy">© 1998 · 海南黃花梨 · 木性 · 紋理 · 降香</div>
+</footer>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button class="modal__close" type="button" data-close aria-label="關閉視窗">✕</button>
+    <div class="modal__media">
+      <span class="modal__badge" id="mBadge"></span>
+      <div class="m-gallery">
+        <div class="m-main-img" id="mMainImgBox"><span>暫無圖片</span></div>
+        <div class="m-thumbs" id="mThumbs"></div>
+      </div>
+    </div>
+    <div class="modal__body">
+      <h3 class="modal__title" id="mTitle"></h3>
+      <p class="modal__spec" id="mSpec"></p>
+      <p class="modal__desc" id="mDesc"></p>
+      <div class="modal__stock">
+        <div class="modal__stock-row">
+          <span class="modal__stock-label">庫存狀態</span>
+          <span class="modal__stock-val" id="mStockVal"></span>
+        </div>
+        <div class="stock-bar" id="mStockBar"><span></span></div>
+        <p class="modal__stock-hint" id="mStockHint"></p>
+      </div>
+      <div class="modal__foot">
+        <span class="modal__price" id="mPrice"></span>
+        <button class="modal__buy" id="mBuy" type="button">加入詢價</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* 商品資料：圖片請替換 images 陣列內的空白字串 */
+var products = [
+  {
+    id: 'p1',
+    name: '黃油梨 · 細紋手串',
+    badge: '黃油梨',
+    spec: '珠徑 2.0 公分 · 14 顆 · 細紋',
+    desc: '黃油梨色澤金黃溫潤，細紋如絲，紋理均勻連貫。油性適中，盤玩後轉為蜜色，是入門黃花梨最耐看的選擇。',
+    price: 10000,
+    stock: 50,
+    images: ['新建文件夹/9.jpg', '新建文件夹/7.jpg', '新建文件夹/8.jpg']
+  },
+  {
+    id: 'p2',
+    name: '黃油梨 · 水波紋手串',
+    badge: '黃油梨',
+    spec: '珠徑 1.8 公分 · 12 顆 · 水波紋',
+    desc: '水波紋在珠面蕩漾如漣漪，光影下層次分明。黃油梨底色的水波料出材率不高，成串紋理對接自然。',
+    price: 18000,
+    stock: 32,
+    images: ['新建文件夹/3.jpg', '新建文件夹/2.jpg', '新建文件夹/1.jpg']
+  },
+  {
+    id: 'p3',
+    name: '紅油梨 · 電水紋手串',
+    badge: '紅油梨',
+    spec: '珠徑 1.8 公分 · 12 顆 · 電水紋',
+    desc: '紅油梨色調偏紅褐，電水紋細密如閃電，是水波紋中較為少見的表現。油性充盈，手感沉穩。',
+    price: 26000,
+    stock: 28,
+    images: ['新建文件夹/6.jpg', '新建文件夹/4.jpg', '新建文件夹/5.jpg']
+  },
+  {
+    id: 'p4',
+    name: '紅油梨 · 細紋手串',
+    badge: '紅油梨',
+    spec: '珠徑 1.2 公分 · 17 顆 · 細紋',
+    desc: '紅油梨的細紋比黃油梨更深沉，紋路收束乾淨，珠面少雜。適合喜歡低調沉穩風格的玩家。',
+    price: 30000,
+    stock: 18,
+    images: ['新建文件夹/12.jpg', '新建文件夹/10.jpg', '新建文件夹/11.jpg']
+  },
+  {
+    id: 'p5',
+    name: '紫油梨 · 水波紋手串',
+    badge: '紫油梨',
+    spec: '珠徑 1.6 公分 · 14 顆 · 水波紋',
+    desc: '紫油梨底色紫黑，水波紋在深色底上更顯靈動。油性極強，壓手感明顯，盤玩後包漿透亮。',
+    price: 38000,
+    stock: 22,
+    images: ['新建文件夹/20.jpg', '新建文件夹/19.jpg', '新建文件夹/21.jpg']
+  },
+  {
+    id: 'p6',
+    name: '紫油梨 · 電水紋手串',
+    badge: '紫油梨 · 收藏級',
+    spec: '珠徑 1.8 公分 · 13 顆 · 電水紋',
+    desc: '紫油梨中的電水紋，紋路細密如織，紫黑底色中透出油潤光澤。出材率極低，屬於可遇不可求的收藏級成串。',
+    price: 50000,
+    stock: 0,
+    images: ['新建文件夹/15.jpg', '新建文件夹/13.jpg', '新建文件夹/14.jpg']
+  }
+];
+
+var MAX_STOCK = products.reduce(function (m, p) { return Math.max(m, p.stock); }, 1);
+
+function stockInfo(stock) {
+  if (stock <= 5) {
+    return { text: '僅剩 ' + stock + ' 條', cls: 'is-low', hint: '存量有限，同料難補，建議儘早確認。' };
+  }
+  return { text: '庫存 ' + stock + ' 條', cls: 'is-in', hint: '現貨供應，皆為同批同料成串。' };
+}
+
+/* 渲染卡片 */
+var grid = document.getElementById('braceletGrid');
+grid.innerHTML = products.map(function (p) {
+  var s = stockInfo(p.stock);
+  var cover = p.images[0] || '';
+  var mediaContent = cover
+    ? '<img src="' + cover + '" alt="' + p.name + '" loading="lazy">'
+    : '<div class="pcard__placeholder">圖片位置</div>';
+
+  return '' +
+    '<article class="pcard">' +
+      '<div class="pcard__media" data-open="' + p.id + '">' +
+        '<span class="pcard__badge">' + p.badge + '</span>' +
+        mediaContent +
+      '</div>' +
+      '<div class="pcard__body">' +
+        '<h3 class="pcard__title">' + p.name + '</h3>' +
+        '<p class="pcard__spec">' + p.spec + '</p>' +
+        '<p class="pcard__stock ' + s.cls + '">' + s.text + '</p>' +
+        '<p class="pcard__desc">' + p.desc + '</p>' +
+        '<div class="pcard__foot">' +
+          '<span class="pcard__price">NT$ ' + p.price.toLocaleString() + '<small>/ 條</small></span>' +
+          '<button class="pcard__btn" type="button" data-open="' + p.id + '">查看詳情</button>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
+}).join('');
+
+/* 彈窗 */
+var modal = document.getElementById('modal');
+var mBadge = document.getElementById('mBadge');
+var mMainImgBox = document.getElementById('mMainImgBox');
+var mThumbs = document.getElementById('mThumbs');
+var mTitle = document.getElementById('mTitle');
+var mSpec = document.getElementById('mSpec');
+var mDesc = document.getElementById('mDesc');
+var mStockVal = document.getElementById('mStockVal');
+var mStockBar = document.getElementById('mStockBar');
+var mStockHint = document.getElementById('mStockHint');
+var mPrice = document.getElementById('mPrice');
+var mBuy = document.getElementById('mBuy');
+var closeBtn = modal.querySelector('.modal__close');
+var lastFocus = null;
+var currentId = null;
+
+function openModal(id) {
+  var p = products.find(function (x) { return x.id === id; });
+  if (!p) return;
+
+  currentId = id;
+  lastFocus = document.activeElement;
+
+  var s = stockInfo(p.stock);
+  var pct = Math.max(0, Math.min(100, Math.round(p.stock / MAX_STOCK * 100)));
+
+  mBadge.textContent = p.badge;
+  mTitle.textContent = p.name;
+  mSpec.textContent = p.spec;
+  mDesc.textContent = p.desc;
+  mPrice.innerHTML = 'NT$ ' + p.price.toLocaleString() + '<small>/ 條</small>';
+
+  mStockVal.textContent = s.text;
+  mStockVal.className = 'modal__stock-val ' + s.cls;
+  mStockBar.className = 'stock-bar ' + s.cls;
+  mStockBar.querySelector('span').style.width = pct + '%';
+  mStockHint.textContent = s.hint;
+
+  mBuy.textContent = '加入詢價';
+  mBuy.classList.remove('is-done');
+
+  var imgs = p.images || [];
+  if (!imgs[0]) {
+    mMainImgBox.innerHTML = '<span>暫無圖片</span>';
+    mThumbs.innerHTML = '';
+  } else {
+    mMainImgBox.innerHTML = '<img src="' + imgs[0] + '" alt="主圖">';
+    mThumbs.innerHTML = imgs.map(function(img, i) {
+      if (!img) return '';
+      return '<div class="m-thumb ' + (i === 0 ? 'is-active' : '') + '" data-src="' + img + '"><img src="' + img + '" alt="縮圖"></div>';
+    }).join('');
+
+    var thumbs = mThumbs.querySelectorAll('.m-thumb');
+    thumbs.forEach(function(t) {
+      t.addEventListener('click', function() {
+        thumbs.forEach(function(x) { x.classList.remove('is-active'); });
+        t.classList.add('is-active');
+        mMainImgBox.innerHTML = '<img src="' + t.getAttribute('data-src') + '" alt="主圖">';
+      });
+    });
+  }
+
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('is-locked');
+  setTimeout(function () { closeBtn.focus(); }, 60);
+}
+
+function closeModal() {
+  modal.classList.remove('is-open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('is-locked');
+  currentId = null;
+  if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+}
+
+document.addEventListener('click', function (e) {
+  var trigger = e.target.closest('[data-open]');
+  if (trigger) {
+    openModal(trigger.getAttribute('data-open'));
+    return;
+  }
+  if (e.target.closest('[data-close]')) closeModal();
+});
+
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+});
+
+mBuy.addEventListener('click', function () {
+  if (mBuy.disabled) return;
+  mBuy.textContent = '已加入詢價清單';
+  mBuy.classList.add('is-done');
+  setTimeout(function () {
+    if (currentId) {
+      mBuy.textContent = '加入詢價';
+      mBuy.classList.remove('is-done');
+    }
+  }, 2000);
+});
+
+/* 導覽列 */
+var toggle = document.getElementById('navToggle');
+var links = document.getElementById('navLinks');
+toggle.addEventListener('click', function () {
+  var open = links.classList.toggle('is-open');
+  toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  toggle.textContent = open ? '關閉' : '選單';
+});
+links.querySelectorAll('a').forEach(function (a) {
+  a.addEventListener('click', function () {
+    links.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.textContent = '選單';
+  });
+});
+
+var nav = document.querySelector('.nav');
+window.addEventListener('scroll', function () {
+  nav.style.padding = window.scrollY > 120 ? '12px clamp(20px,5vw,64px)' : '18px clamp(20px,5vw,64px)';
+}, { passive: true });
+</script>
+</body>
+</html>
